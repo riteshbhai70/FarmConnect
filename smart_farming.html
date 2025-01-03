@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Farming</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="static/css/styles.css">
+
+    <style>
+        /* Custom Styles for Smart Farming Page */
+        body {
+            background-image: url("{{ url_for('static', filename='images/bg.jpg') }}"); /* Ensure this points to your background image */
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        header {
+            background: rgba(0, 123, 255, 0.7); /* Blue background with opacity */
+            padding: 70px 0;
+            text-align: center;
+            color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        header .btn {
+            font-size: 1.2rem;
+            padding: 10px 25px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        header .btn:hover {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 50px 15px;
+        }
+
+        .form-group label {
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .form-group input {
+            font-size: 1.2rem;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        .btn-primary {
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .alert {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        /* Styling for the form section */
+        .form-section {
+            background: rgba(0, 0, 0, 0.3); /* Semi-transparent dark background for the form */
+            padding: 40px;
+            border-radius: 10px;
+            margin-top: 50px;
+        }
+
+        /* Flash Message Section */
+        #flash-messages {
+            margin-top: 40px;
+        }
+
+        /* Animations for Input Fields */
+        .form-group input {
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Section Title Styling */
+        h2 {
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .techniques-list {
+            margin-top: 40px;
+        }
+
+        .techniques-list ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .techniques-list li {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .techniques-list li:hover {
+            background-color: rgba(0, 123, 255, 0.2);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <h1>Smart Farming</h1>
+        <a class="btn btn-light" href="/">Back to Home</a>
+    </header>
+
+    <!-- Main Content Section -->
+    <main class="container mt-4">
+        <section class="form-section">
+            <h2>Share Your Smart Farming Technique</h2>
+            <form action="/smart_farming" method="POST">
+                <div class="form-group">
+                    <label for="technique">Farming Technique:</label>
+                    <input type="text" id="technique" name="technique" class="form-control" placeholder="Enter technique..." required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </section>
+
+        <!-- Flash Messages Section -->
+        <div id="flash-messages" class="mt-4 text-center">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-info">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        <!-- Smart Farming Techniques Section -->
+        <section class="techniques-list">
+            <h2>Smart Farming Techniques to Boost Productivity</h2>
+            <ul>
+                <li><strong>Precision Farming:</strong> Utilize sensors and GPS to monitor soil health and optimize water usage, reducing costs and increasing yield.</li>
+                <li><strong>Drip Irrigation:</strong> This technique helps conserve water by delivering it directly to the roots, which reduces wastage and increases crop yield.</li>
+                <li><strong>Crop Rotation:</strong> Rotate different crops to improve soil health, prevent soil depletion, and reduce the need for chemical fertilizers.</li>
+                <li><strong>Integrated Pest Management:</strong> Use a combination of biological, cultural, and mechanical methods to control pests and reduce dependency on harmful pesticides.</li>
+                <li><strong>Vertical Farming:</strong> Grow crops vertically in controlled indoor environments, optimizing space and water use while providing fresh produce year-round.</li>
+                <li><strong>Use of Drones for Monitoring:</strong> Drones can be used for crop surveillance to detect early signs of disease or pest infestations, leading to quicker intervention and minimal damage.</li>
+                <li><strong>Soil Health Management:</strong> Regular testing and organic amendments like compost or green manure can boost soil fertility, enhancing crop growth.</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <!-- Optional Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

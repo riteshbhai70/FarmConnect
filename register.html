@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url("{{ url_for('static', filename='images/bg.jpg') }}"); /* Make sure the image path is correct */
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+            color: #333;
+        }
+
+        /* Container for the registration form */
+        .container {
+            width: 400px;
+            margin: 100px auto;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            color: #007bff;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-size: 1.2rem;
+            color: #007bff;
+            margin-right: 20px;
+            transition: all 0.3s ease;
+        }
+
+        label:hover {
+            color: #0056b3;
+            cursor: pointer;
+        }
+
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.2rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .flash-message {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            border-radius: 4px;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Select Registration Type</h2>
+
+        <!-- Display flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-message">
+                {% for category, message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% endwith %}
+        
+        <form id="mainRegisterForm" method="POST" action="#">
+            <label for="farmer">
+                <input type="radio" name="userType" id="farmer" value="farmer">
+                Farmer
+            </label>
+            <label for="customer">
+                <input type="radio" name="userType" id="customer" value="customer">
+                Customer
+            </label>
+            <br><br>
+            <input type="submit" value="Submit" onclick="redirectBasedOnSelection(event)">
+        </form>
+    </div>
+
+    <script>
+        function redirectBasedOnSelection(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            const userType = document.querySelector('input[name="userType"]:checked');
+            
+            if (userType) {
+                if (userType.value === 'farmer') {
+                    window.location.href = 'farmerRegistration.html'; // Redirect to farmer registration page
+                } else if (userType.value === 'customer') {
+                    window.location.href = 'customerRegistration.html'; // Redirect to customer registration page
+                }
+            } else {
+                alert('Please select a registration type'); // Alert if no selection is made
+            }
+        }
+    </script>
+
+</body>
+</html>

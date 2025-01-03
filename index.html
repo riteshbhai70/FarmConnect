@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer's Portal</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <!-- FontAwesome for Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    
+    <style>
+        /* Custom Styles */
+        body {
+            background-image: url("{{ url_for('static', filename='images/bg.jpg') }}"); /* Ensure this points to your background image */
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        /* Header Section */
+        header {
+            background: rgba(0, 123, 255, 0.7); /* Blue background with opacity */
+            padding: 70px 0;
+            text-align: center;
+            color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .navbar-nav .nav-item .nav-link:hover,
+        .navbar-nav .nav-item .nav-link:focus {
+            background-color: #0056b3;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .navbar-nav .nav-item.active .nav-link {
+            background-color: #28a745;
+            color: white;
+            font-weight: bold;
+        }
+
+        .navbar-nav .nav-item .nav-link:active {
+            background-color: #0056b3;
+            box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .navbar-toggler {
+            border-color: white;
+        }
+
+        .navbar-toggler-icon {
+            background-color: white;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-nav {
+                flex-direction: column;
+            }
+        }
+
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 10px 0;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-nav .nav-link {
+            font-size: 1.1rem;
+            color: #333;
+            font-weight: 600;
+            padding: 10px 20px;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #007bff;
+            text-decoration: underline;
+        }
+
+        /* Content Section */
+        .content {
+            padding: 150px 0;
+            text-align: center;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.4); /* Semi-transparent dark background */
+            min-height: 50vh;
+        }
+
+        .content h2 {
+            font-size: 3.8rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .content p {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            margin-bottom: 40px;
+        }
+
+        .content button {
+            font-size: 1.3rem;
+            padding: 15px 30px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .content button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Footer Section */
+        .footer {
+            background-color: #4CAF50; /* Changed footer color to a greenish tone */
+            color: #fff;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer h5 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .footer p {
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        .footer a {
+            color: #fff;
+            margin: 0 10px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer a:hover {
+            color: #007bff;
+        }
+
+        .footer .social-links a {
+            margin: 0 15px;
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .footer .social-links a:hover {
+            color: #007bff;
+        }
+
+        .footer .social-links img {
+            width: 24px; /* Adjust icon size */
+            height: 24px;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        /* Chatbot Styles */
+        #chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        #chatbot-button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 50%;
+            font-size: 2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        #chatbot-button:hover {
+            background-color: #218838;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        #chatbot-window {
+            display: none;
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 320px;
+            height: 450px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border: 1px solid #ddd;
+        }
+
+        #chatbot-window h5 {
+            text-align: center;
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+        }
+
+        #chatbot-messages {
+            height: 80%;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            padding-right: 10px;
+        }
+
+        .chat-message {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            line-height: 1.5;
+        }
+
+        .chat-message.bot {
+            text-align: left;
+            color: #007bff;
+        }
+
+        .chat-message.user {
+            text-align: right;
+            color: #28a745;
+        }
+
+        #chatbot-input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 1.1rem;
+        }
+
+        #chatbot-input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        /* Smooth transition for all elements */
+        * {
+            transition: all 0.3s ease;
+        }
+
+        /* Make sure the page takes the full height */
+        html, body {
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <h1>Welcome to the Farmer's Portal</h1>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="collapse navbar-collapse justify-content-center">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="/market_prices">Market Prices</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/smart_farming">Smart Farming</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/equipment_rental">Equipment Rental</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/register.html">Register</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/login.html">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact.html">contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Content Section -->
+    <div class="content">
+        <div class="container">
+            <h2>Empowering Farmers for a Better Future</h2>
+            <p>Join us today to access a wide range of services including market prices, smart farming tools, and equipment rentals to help you grow your farming business.</p>
+            <a href="login.html" class="btn btn-primary btn-lg">Get Started</a>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <!-- Quick Links Section -->
+                <div class="col-12 col-md-4 mb-3 mb-md-0">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="/about.html" class="text-white">About Us</a></li>
+                        <li><a href="/services.html" class="text-white">Our Services</a></li>
+                        <li><a href="/contact.html" class="text-white">Contact Us</a></li>
+                        <li><a href="/privacy_policy.html" class="text-white">Privacy Policy</a></li>
+                        <li><a href="/faq.html" class="text-white">FAQs</a></li>
+                    </ul>
+                </div>
+
+                <!-- Follow Us Section -->
+                <div class="col-12 col-md-4 mb-3 mb-md-0">
+                    <h5>Follow Us</h5>
+                    <p>Stay connected and updated with the latest farming trends, tips, and news through our social media channels.</p>
+                    <div class="social-links">
+                        <a href="https://facebook.com" target="_blank" class="text-white mx-2">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Facebook_f_logo_%282019%29.svg/1200px-Facebook_f_logo_%282019%29.svg.png" alt="Facebook">
+                        </a>
+                       
+                        <a href="https://instagram.com" target="_blank" class="text-white mx-2">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/1200px-Instagram_logo_2022.svg.png" alt="Instagram">
+                        </a>
+                        <a href="https://linkedin.com" target="_blank" class="text-white mx-2">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chatbot -->
+    <div id="chatbot-container">
+        <button id="chatbot-button" onclick="toggleChatbot()">💬</button>
+        <div id="chatbot-window">
+            <h5>Farmer's Assistant</h5>
+            <div id="chatbot-messages"></div>
+            <input type="text" id="chatbot-input" placeholder="Ask me anything..." onkeydown="sendMessage(event)">
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Chatbot JS -->
+    <script>
+        // Toggle chatbot window
+        function toggleChatbot() {
+            const chatbotWindow = document.getElementById('chatbot-window');
+            chatbotWindow.style.display = (chatbotWindow.style.display === 'block') ? 'none' : 'block';
+        }
+
+        // Display the user message and bot response
+        function sendMessage(event) {
+            if (event.key === 'Enter') {
+                const input = document.getElementById('chatbot-input');
+                const userMessage = input.value.trim();
+                if (userMessage !== "") {
+                    displayMessage(userMessage, 'user');
+                    input.value = '';
+                    setTimeout(() => displayMessage(getBotResponse(userMessage), 'bot'), 1000);
+                }
+            }
+        }
+
+        // Display message in the chat window
+        function displayMessage(message, sender) {
+            const messageContainer = document.getElementById('chatbot-messages');
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('chat-message', sender);
+            messageElement.textContent = message;
+            messageContainer.appendChild(messageElement);
+            messageContainer.scrollTop = messageContainer.scrollHeight;
+        }
+
+        // Simple bot response logic (can be expanded)
+        function getBotResponse(message) {
+            const responses = {
+                "hi": "Hello! How can I assist you today?",
+                "hello": " hlw user",
+                "admin":"my admin is Ritesh kumar",
+                "help": "I'm here to help! You can ask about market prices, smart farming, and more.",
+                "market prices": "The current market prices for crops are... (fetching data)",
+                "smart farming": "Smart farming helps optimize resources and increase crop yield. Would you like to know more?",
+                "equipment rental": "We offer a variety of farming equipment for rent. Please specify what you need."
+            };
+
+            return responses[message.toLowerCase()] || "Sorry, I didn't quite understand that. Can you rephrase?";
+        }
+    </script>
+</body>
+</html>

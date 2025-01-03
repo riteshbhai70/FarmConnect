@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url("{{ url_for('static', filename='images/bg.jpg') }}");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 30px;
+        }
+
+        .service-list {
+            font-size: 1.1rem;
+        }
+
+        .service-item {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Our Services</h1>
+        <div class="service-list">
+            <div class="service-item">
+                <h4>Smart Farming Solutions</h4>
+                <p>We provide modern farming techniques and solutions for better crop yields, sustainable practices, and increased farm productivity.</p>
+            </div>
+            <div class="service-item">
+                <h4>Market Price Updates</h4>
+                <p>Get real-time updates on market prices for various crops, allowing farmers to make informed decisions about when to sell their produce.</p>
+            </div>
+            <div class="service-item">
+                <h4>Consultation and Support</h4>
+                <p>Our experts are available for consultations to guide farmers in adopting the best practices for farming and improving crop management.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

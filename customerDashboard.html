@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Dashboard</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Font Awesome for Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="static/css/styles.css">
+
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url("{{ url_for('static', filename='images/bg.jpg') }}");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+            color: #333;
+        }
+
+        .navbar {
+            background-color: rgba(0, 123, 255, 0.7); /* Blue background with opacity */
+            padding: 20px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .navbar a:hover {
+            background-color: #45a049;
+        }
+
+        /* Container for Dashboard Content */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 28px;
+            color: #ff6347; /* Changed color to Tomato */
+        }
+
+        /* Grains Section */
+        .grains-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .grain-card {
+            background-color: rgba(255, 255, 255, 0.9); /* Lighter white background */
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.1); /* Add subtle border */
+        }
+
+        .grain-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .grain-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .grain-card img:hover {
+            transform: scale(1.05);
+        }
+
+        .grain-card h4 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .grain-card p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .price {
+            font-size: 18px;
+            font-weight: normal;
+            color: #888;
+            text-decoration: line-through; /* Original price */
+        }
+
+        .discount-price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #4CAF50; /* Discounted price in bold and green */
+        }
+
+        .contact-btn, .buy-btn {
+            padding: 10px 20px;
+            margin-top: 10px;
+            border-radius: 4px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .contact-btn:hover, .buy-btn:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                margin: 20px auto;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            .grains-section {
+                grid-template-columns: 1fr 1fr; /* 2 items per row on smaller screens */
+            }
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(0, 123, 255, 0.7);
+            color: white;
+            margin-top: 40px;
+        }
+
+        /* Flash Messages Styling */
+        #flash-messages {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .alert {
+            font-size: 1.1rem;
+        }
+
+        /* Modal Styling */
+        .modal-content {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+        }
+
+        .modal-header {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 18px;
+        }
+
+        .modal-body {
+            font-size: 16px;
+        }
+
+        .modal-footer {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <a href="#">Home</a>
+        <a href="/logout" style="font-size: 14px;">Logout</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h2>Welcome to the Customer Dashboard, {{ Anurag }}</h2>
+
+        <!-- Grains Section -->
+        <div class="grains-section">
+            <div class="grain-card">
+                <img src="static/images/wheat.jpg" alt="Wheat Image">
+                <h4>Wheat</h4>
+                <p class="price">₹2200 per quintal</p>
+                <p class="discount-price">₹2000 per quintal</p> <br>
+                <a href="#" class="contact-btn" data-toggle="modal" data-target="#contactModal" 
+                   data-email="farmer@example.com" data-phone="+1-800-123-4567">Contact Farmer</a> <br><br>
+                <a href="/booking?crop_id=1&crop_name=Wheat" class="buy-btn">Buy Now (Min 1 Quintal)</a> <!-- Link to booking page with crop details -->
+            </div>
+           
+            <div class="grain-card">
+                <img src="static/images/corn.jpg" alt="Corn Image">
+                <h4>Corn</h4>
+                <p class="price">₹2000 per quintal</p>
+                <p class="discount-price">₹1850 per quintal</p>
+                <a href="#" class="contact-btn" data-toggle="modal" data-target="#contactModal" 
+                   data-email="farmer2@example.com" data-phone="+1-800-123-4567">Contact Farmer</a><br><br>
+                <a href="/booking?crop_id=2&crop_name=Corn" class="buy-btn">Buy Now (Min 1 Quintal)</a>
+            </div>
+            
+            
+            <div class="grain-card">
+                <img src="static/images/rice.jpg" alt="Rice Image">
+                <h4>Rice</h4>
+                <p class="price">₹2500 per quintal</p>
+                <p class="discount-price">₹2300 per quintal</p>
+                <a href="#" class="contact-btn" data-toggle="modal" data-target="#contactModal" 
+                   data-email="farmer3@example.com" data-phone="+1-800-123-4567">Contact Farmer</a><br><br>
+                <a href="/booking?crop_id=3&crop_name=Rice" class="buy-btn">Buy Now (Min 1 Quintal)</a>
+            </div>
+            
+            <div class="grain-card">
+                <img src="static/images/potato.jpg" alt="Potato Image">
+                <h4>Potatoes</h4>
+                <p class="price">₹1800 per quintal</p>
+                <p class="discount-price">₹1700 per quintal</p>
+                <a href="#" class="contact-btn" data-toggle="modal" data-target="#contactModal" 
+                   data-email="farmer4@example.com" data-phone="+1-800-123-4567">Contact Farmer</a><br><br>
+                <a href="/booking?crop_id=4&crop_name=Potatoes" class="buy-btn">Buy Now (Min 1 Quintal)</a>
+            </div>
+            
+            <div class="grain-card">
+                <img src="static/images/paddy.jpg" alt="Paddy Image">
+                <h4>Paddy</h4>
+                <p class="price">₹2400 per quintal</p>
+                <p class="discount-price">₹2200 per quintal</p>
+                <a href="#" class="contact-btn" data-toggle="modal" data-target="#contactModal" 
+                   data-email="farmer5@example.com" data-phone="+1-800-123-4567">Contact Farmer</a><br><br>
+                <a href="/booking?crop_id=5&crop_name=Paddy" class="buy-btn">Buy Now (Min 1 Quintal)</a>
+            </div>
+            
+            <div class="grain-card">
+                <img src="static/images/barley.png" alt="Barley Image">
+                <h4>Barley</h4>
+                <p class="price">₹2200 per quintal</p>
+                <p class="discount-price">₹2100 per quintal</p>
+                <a href="#" class="contact-btn" data-toggle="modal" data-target="#contactModal" 
+                   data-email="farmer6@example.com" data-phone="+1-800-123-4567">Contact Farmer</a><br><br>
+                <a href="/booking?crop_id=6&crop_name=Barley" class="buy-btn">Buy Now (Min 1 Quintal)</a>
+            </div>
+            
+            <div class="grain-card">
+                <img src="static/images/rye.png" alt="Rye Image">
+                <h4>Rye</h4>
+                <p class="price">₹2100 per quintal</p>
+                <p class="discount-price">₹2000 per quintal</p>
+                <a href="#" class="contact-btn" data-toggle="modal" data-target="#contactModal" 
+                   data-email="farmer7@example.com" data-phone="+1-800-123-4567">Contact Farmer</a><br><br>
+                <a href="/booking?crop_id=7&crop_name=Rye" class="buy-btn">Buy Now (Min 1 Quintal)</a>
+            </div>
+            
+            <div class="grain-card">
+                <img src="static/images/oats.png" alt="Oats Image">
+                <h4>Oats</h4>
+                <p class="price">₹1800 per quintal</p>
+                <p class="discount-price">₹1700 per quintal</p>
+                <a href="#" class="contact-btn" data-toggle="modal" data-target="#contactModal" 
+                   data-email="farmer8@example.com" data-phone="+1-800-123-4567">Contact Farmer</a><br><br>
+                <a href="/booking?crop_id=8&crop_name=Oats" class="buy-btn">Buy Now (Min 1 Quintal)</a>
+            </div>
+             <!-- Other grains can follow the same structure -->
+            </div>
+    </div>
+
+    <!-- Flash Messages Section -->
+    <div id="flash-messages">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-info">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Contact Modal -->
+    <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="contactModalLabel">Contact Farmer</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Farmer Email: <span id="farmerEmail"></span></p>
+                    <p>Our Service Number: <span id="serviceNumber">+1-800-123-4567</span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Modal Script to Update Contact Information -->
+    <script>
+        $('#contactModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var email = button.data('email'); // Extract info from data-* attributes
+            var phone = button.data('phone');
+
+            var modal = $(this);
+            modal.find('#farmerEmail').text(email);
+            modal.find('#serviceNumber').text(phone);
+        });
+    </script>
+</body>
+</html>
